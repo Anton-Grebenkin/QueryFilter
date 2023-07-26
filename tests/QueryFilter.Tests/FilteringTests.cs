@@ -129,7 +129,7 @@ namespace QueryFilter.Tests
             };
 
             //Act
-            var expected = items.AsQueryable().Where(x => x.A > value).ToList();
+            var expected = items.AsQueryable().Where(x => x.A < value).ToList();
             var result = items.AsQueryable().ApplyFilter(filter).ToList();
 
             //Assert
