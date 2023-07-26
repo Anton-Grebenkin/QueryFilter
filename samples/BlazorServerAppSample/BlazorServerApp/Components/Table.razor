@@ -1,0 +1,68 @@
+﻿@using BlazorServerApp.Filters
+@typeparam TableItem
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered table-hover table-sm">
+        <thead class="thead-light text-dark">
+            <tr>
+                @foreach (var column in Columns)
+                {
+                    <th>
+                        <div @onclick="@(async () => await column.SortByAsync())">
+                            <span>@column.Title</span>
+                            @if (column.SortColumn)
+                            {
+                                if (column.SortDescending)
+                                {
+                                    <span aria-hidden="true"><img src="images/sort-desc.png" /></span>
+                                }
+                                else
+                                {
+                                    <span aria-hidden="true"><img src="images/sort-asc.png" /></span>
+                                }
+                            }
+                            @if (column.Filterable)
+                            {
+                                <div class="float-right" @onclick="@(_ => column.ToggleFilter())" @onclick:stopPropagation>
+                                    <a href="javascript:;" @ref="column.FilterRef" aria-expanded="@(column.FilterOpen ? "true" : "false")" style="text-decoration: none" aria-label="@(column.FilterItem == null ? "unfiltered" : "filtered")">
+                                        <span aria-hidden="true" style="@(column.FilterItem == null ? "opacity: 0.2;" : string.Empty)">
+                                            <img src="images/filter.png" />
+                                        </span>
+                                    </a>
+                                </div>
+                                <CascadingValue Value="column" Name="Column">
+                                    <Popover Reference="@column.FilterRef" IsOpen="@column.FilterOpen" Placement="Placement.Bottom" DismissOnNextClick="false">
+                                        <h3 class="popover-header">Filter</h3>
+                                        <div class="popover-body">
+                                            <FilterManager TableItem="TableItem">
+                                                <StringFilter TableItem="TableItem" />
+                                                <NumberFilter TableItem="TableItem" />
+                                                <DateFilter TableItem="TableItem" />
+                                            </FilterManager>
+                                        </div>
+                                    </Popover>
+                                </CascadingValue>
+                            }
+                        </div>
+                    </th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Items)
+            {
+                <tr>
+                    @foreach (var column in Columns)
+                    {
+                        <td>@column.Render(item)</td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<CascadingValue Value="(Table<TableItem>)this" Name="Table">
+    @ChildContent
+</CascadingValue>
+

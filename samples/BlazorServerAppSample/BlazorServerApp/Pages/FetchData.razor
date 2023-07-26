@@ -1,0 +1,22 @@
+﻿@page "/fetchdata"
+<PageTitle>Weather forecast</PageTitle>
+@using BlazorServerApp.Components
+@using BlazorServerApp.Data
+@using BlazorServerApp.Interfaces;
+
+<Table TableItem="WeatherForecast" DataLoader="_loader">
+    <Column TableItem="WeatherForecast" Field="@(x => x.Date)" Sortable=true Filterable=true></Column>
+    <Column TableItem="WeatherForecast" Field="@(x => x.TemperatureC)" Sortable=true Filterable=true></Column>
+    <Column TableItem="WeatherForecast" Field="@(x => x.TemperatureF)" Sortable=true Filterable=true></Column>
+    <Column TableItem="WeatherForecast" Field="@(x => x.Summary)" Sortable=true Filterable=true></Column>
+    <Pager ShowPageNumber="true" ShowTotalCount="true" />
+</Table>
+
+@code {
+    private IDataLoader<WeatherForecast> _loader;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _loader = new DataLoader();
+    }
+}

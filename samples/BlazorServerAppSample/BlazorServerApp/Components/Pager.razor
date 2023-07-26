@@ -1,0 +1,51 @@
+@namespace BlazorServerApp.Components
+
+@if (AlwaysShow || (Table.TotalPages > 1))
+{
+    <div class="d-flex justify-content-end">
+        <ul class="pagination">
+            @if (ShowPageSizes)
+            {
+            <li class="page-item" title="Set Page Size">
+                <select class="form-control" value="@Table.PageSize" @onchange="(async ev => await SetPageSizeAsync(ev))">
+                    @foreach (int option in PageSizes)
+                    {
+                        <option value="@option">@option</option>
+                    }
+                </select>
+            </li>
+            }
+            @if (ShowPageNumber)
+            {
+                <li class="page-item disabled" @onclick="@(() => Table.FirstPageAsync())" title="Page @(Table.PageNumber + 1)/@(Table.TotalPages)">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">@(Table.PageNumber + 1)/@(Table.TotalPages)</a>
+                </li>
+            }
+            @if (ShowTotalCount)
+            {
+                <li class="page-item disabled" @onclick="@(() => Table.FirstPageAsync())" title="Total Items @Table.TotalCount">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">@Table.TotalCount</a>
+                </li>
+            }
+            @if (ShowPageNumber || ShowTotalCount)
+            {
+                <li aria-hidden="true" class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">&nbsp;</a>
+                </li>
+            }
+
+            <li class="page-item @(Table.PageNumber == 0 ? "disabled": "")" @onclick="@(() => Table.FirstPageAsync())" title="First">
+                <a class="page-link" href="javascript:;" aria-disabled="@(Table.PageNumber == 0 ? "true": null)">First</a>
+            </li>
+            <li class="page-item @(Table.PageNumber == 0 ? "disabled": "")" @onclick="@(() => Table.PreviousPageAsync())" title="Previous">
+                <a class="page-link" href="javascript:;" aria-disabled="@(Table.PageNumber == 0 ? "true": null)">Previous</a>
+            </li>
+            <li class="page-item @(Table.PageNumber + 1 < Table.TotalPages ? "" : "disabled")" @onclick="@(() => Table.NextPageAsync())" title="Next">
+                <a class="page-link" href="javascript:;" aria-disabled="@(Table.PageNumber + 1 < Table.TotalPages ? null: "true")">Next</a>
+            </li>
+            <li class="page-item @(Table.PageNumber + 1 != Table.TotalPages ? "" : "disabled")" @onclick="@(() => Table.LastPageAsync())" title="Last">
+                <a class="page-link" href="javascript:;" aria-disabled="@(Table.PageNumber + 1 != Table.TotalPages ? null : "true")">Last</a>
+            </li>
+        </ul>
+    </div>
+}
