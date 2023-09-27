@@ -77,7 +77,7 @@ namespace QueryFilter
             {
                 var sort = sorts[i];
 
-                var command = "";
+                var command = string.Empty;
                 if (sort.Desc)
                 {
                     if (i == 0)

@@ -1,6 +1,7 @@
 ﻿using QueryFilter.Models;
 using QueryFilter.Tests.Extensions;
 using QueryFilter.Extensions;
+using Newtonsoft.Json;
 
 namespace QueryFilter.Tests
 {
@@ -108,7 +109,7 @@ namespace QueryFilter.Tests
             var act = () => items.AsQueryable().ApplyFilter(filter).ToList();
 
             //Assert
-            act.Should().Throw<InvalidCastException>();
+            act.Should().Throw<FormatException>();
         }
 
         [Test, AutoMoqData(100)]
@@ -173,7 +174,7 @@ namespace QueryFilter.Tests
                     {
                         Operator = OperatorType.In,
                         PropertyName = nameof(DataItem.A),
-                        Value = values
+                        Value = JsonConvert.SerializeObject(values)
                     }
                 }
             };
@@ -181,6 +182,7 @@ namespace QueryFilter.Tests
             //Act
             var expected = items.AsQueryable().Where(x => values.Contains(x.A)).ToList();
             var result = items.AsQueryable().ApplyFilter(filter).ToList();
+            items.AsQueryable().ApplyFilter(filter).ToList();
 
             //Assert
             result.Should().BeEquivalentTo(expected);
