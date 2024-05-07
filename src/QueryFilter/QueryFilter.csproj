@@ -6,13 +6,13 @@
     <Nullable>enable</Nullable>
     <PackageId>FluentQueryFilter</PackageId>
     <Title>FluentQueryFilter</Title>
-    <Version>1.0.1</Version>
+    <Version>1.1.0</Version>
     <Authors>Anton Grebenkin</Authors>
     <Company>Anton Grebenkin</Company>
     <Product>FluentQueryFilter</Product>
     <Description>A library that provides to apply serialized filters to IQueryable collections</Description>
     <RepositoryUrl>https://github.com/Anton-Grebenkin/QueryFilter</RepositoryUrl>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReadmeFile></PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>icon.png</PackageIcon>
     <PackageTags>filter, query, data</PackageTags>
@@ -25,7 +25,14 @@
 </ItemGroup>
 
 <ItemGroup>
-  <PackageReference Include="FluentQueryFilter.Models" Version="1.0.0" />
+  <None Include="..\..\icon.png">
+    <Pack>True</Pack>
+    <PackagePath>\</PackagePath>
+  </None>
+</ItemGroup>
+
+<ItemGroup>
+  <PackageReference Include="FluentQueryFilter.Models" Version="1.0.1" />
 </ItemGroup>
 
 </Project>
