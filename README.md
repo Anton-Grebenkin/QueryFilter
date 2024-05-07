@@ -13,24 +13,24 @@ var filter = new Filter
 {
    MainNode = new FilterNode
    {
-       LogicalOperator = LogicalOperatorType.And,
-       FilterNodes = new List<FilterNode>
-       {
-             new FilterNode
-             {
-                   ExpressionOperator = ExpressionOperatorType.GreaterThan,
-                   PropertyName = nameof(Item.Id),
-                   Value = 1
-             }
-       }
+      LogicalOperator = LogicalOperatorType.And,
+      FilterNodes = new List<FilterNode>
+      {
+         new FilterNode
+         {
+            ExpressionOperator = ExpressionOperatorType.GreaterThan,
+            PropertyName = nameof(Item.Id),
+            Value = 1
+         }
+      }
    },
    Sorts = new List<PropertySort>()
    {
-       new PropertySort
-       {
-           Desc = true,
-           PropertyName = nameof(Item.Id)
-       }
+      new PropertySort
+      {
+         Desc = true,
+         PropertyName = nameof(Item.Id)
+      }
    },
    Skip = 10,
    Take = 100 
