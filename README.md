@@ -2,35 +2,40 @@
 A library that provides to apply serialized filters to IQueryable collections
 
 ## Features
-- Filtering with logical AND operation
+- Filtering
 - Paging
 - Sorting
 
 ## Usage
 Create filter
 ```csharp
-  var filter = new Filter
-  {
-      Items = new List<FilterItem>()
+var filter = new Filter
+{
+   MainNode = new FilterNode
+   {
+      LogicalOperator = LogicalOperatorType.And,
+      FilterNodes = new List<FilterNode>
       {
-          new FilterItem
-          {
-              Operator = OperatorType.GreaterThan,
-              PropertyName = nameof(Item.Id),
-              Value = 1
-          }
-      },
-      Sorts = new List<PropertySort>()
+         new FilterNode
+         {
+            ExpressionOperator = ExpressionOperatorType.GreaterThan,
+            PropertyName = nameof(Item.Id),
+            Value = 1
+         }
+      }
+   },
+   Sorts = new List<PropertySort>()
+   {
+      new PropertySort
       {
-          new PropertySort
-          {
-              Desc = true,
-              PropertyName = nameof(Item.Id)
-          }
-      },
-      Skip = 10,
-      Take = 100
-  };
+         Desc = true,
+         PropertyName = nameof(Item.Id)
+      }
+   },
+   Skip = 10,
+   Take = 100 
+};
+
 ```
 Apply filter
 ```csharp
