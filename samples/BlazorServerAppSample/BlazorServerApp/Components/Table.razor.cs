@@ -75,7 +75,12 @@ namespace BlazorServerApp.Components
                         Desc = sortColumn.SortDescending
                     });
 
-                filter.Items = Columns
+                filter.MainNode = new FilterNode
+                {
+                    LogicalOperator = LogicalOperatorType.And
+                };
+
+                filter.MainNode.FilterNodes = Columns
                     .Where(c => c.FilterItem != null)
                     .Select(c => c.FilterItem)
                     .ToList();

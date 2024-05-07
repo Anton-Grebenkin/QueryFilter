@@ -12,7 +12,7 @@ namespace BlazorServerApp.Filters
         [CascadingParameter(Name = "Column")]
         public Column<TableItem> Column { get; set; }
 
-        private OperatorType Condition { get; set; }
+        private ExpressionOperatorType Condition { get; set; }
 
         private DateTime FilterValue { get; set; } = DateTime.Now;
 
@@ -24,17 +24,17 @@ namespace BlazorServerApp.Filters
    
                 if (Column.FilterItem != null && DateTime.TryParse(Column.FilterItem.Value.ToString(), out DateTime result))
                 {
-                    Condition = Column.FilterItem.Operator;
+                    Condition = Column.FilterItem.ExpressionOperator.Value;
                     FilterValue = result;
                 }
             }
         }
 
-        public FilterItem GetFilter()
+        public FilterNode GetFilter()
         {
-            return new FilterItem
+            return new FilterNode
             {
-                Operator = Condition,
+                ExpressionOperator = Condition,
                 PropertyName = Column.Field.GetPropertyMemberInfo().Name,
                 Value = FilterValue
             };

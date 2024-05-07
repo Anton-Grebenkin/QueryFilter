@@ -4,15 +4,17 @@
     {
         public int? Take { get; set; }
         public int? Skip { get; set; }
-        public ICollection<FilterItem> Items { get; set; } = new List<FilterItem>();
+        public FilterNode MainNode { get; set; }
         public ICollection<PropertySort> Sorts { get; set; } = new List<PropertySort>();
     }
 
-    public class FilterItem
+    public class FilterNode
     {
-        public string PropertyName { get; set; }
-        public OperatorType Operator { get; set; }
+        public LogicalOperatorType? LogicalOperator { get; set; }
+        public string? PropertyName { get; set; }
+        public ExpressionOperatorType? ExpressionOperator { get; set; }
         public object? Value { get; set; }
+        public IEnumerable<FilterNode>? FilterNodes { get; set; }
 
     }
 
@@ -21,5 +23,4 @@
         public bool Desc { get; set; }
         public string PropertyName { get; set; }
     }
-
 }

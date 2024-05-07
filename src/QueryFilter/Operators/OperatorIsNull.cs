@@ -6,7 +6,7 @@ namespace QueryFilter.Operators
 {
     internal class OperatorIsNull : Operator
     {
-        public OperatorIsNull(FilterItem filterItem) : base(filterItem)
+        public OperatorIsNull(FilterNode filterItem) : base(filterItem)
         {
         }
 

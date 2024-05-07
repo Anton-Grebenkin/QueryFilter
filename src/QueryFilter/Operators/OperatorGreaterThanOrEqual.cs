@@ -5,7 +5,7 @@ namespace QueryFilter.Operators
 {
     internal class OperatorGreaterThanOrEqual : Operator
     {
-        public OperatorGreaterThanOrEqual(FilterItem filterItem) : base(filterItem, true){}
+        public OperatorGreaterThanOrEqual(FilterNode filterItem) : base(filterItem, true){}
 
         protected override Expression GetExpressionBody(MemberExpression memberExpression, Expression constantExpression)
         {

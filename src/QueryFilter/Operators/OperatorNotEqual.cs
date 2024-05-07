@@ -5,7 +5,7 @@ namespace QueryFilter.Operators
 {
     internal class OperatorNotEqual : Operator
     {
-        internal OperatorNotEqual(FilterItem filterItem) : base(filterItem, true){}
+        internal OperatorNotEqual(FilterNode filterItem) : base(filterItem, true){}
         protected override Expression GetExpressionBody(MemberExpression memberExpression, Expression constantExpression)
         {
             return Expression.NotEqual(memberExpression, constantExpression);

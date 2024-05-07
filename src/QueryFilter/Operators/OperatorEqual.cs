@@ -6,7 +6,7 @@ namespace QueryFilter.Operators
 {
     internal class OperatorEqual : Operator
     {
-        internal OperatorEqual(FilterItem filterItem) : base(filterItem, true) {}
+        internal OperatorEqual(FilterNode filterItem) : base(filterItem, true) {}
         protected override Expression GetExpressionBody(MemberExpression memberExpression, Expression constantExpression)
         {
             var expression = Expression.Equal(memberExpression, constantExpression);

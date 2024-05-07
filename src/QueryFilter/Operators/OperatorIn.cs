@@ -7,7 +7,7 @@ namespace QueryFilter.Operators
 {
     internal class OperatorIn : Operator
     {
-        internal OperatorIn(FilterItem item) : base(item) { }
+        internal OperatorIn(FilterNode item) : base(item) { }
         protected override Expression GetExpressionBody(MemberExpression memberExpression, Expression constantExpression)
         {
             return Expression.Call(EnumerablePresets.ContainsMethod.MakeGenericMethod(memberExpression.Type), constantExpression, memberExpression);
@@ -24,7 +24,6 @@ namespace QueryFilter.Operators
                 return Expression.Constant(_filterItem.Value);
             }
                 
-
             var value = ValueCastUtility.CastJsonStringToArrayOfType(_filterItem.Value.ToString(), memberExpression.Type);
 
             return Expression.Constant(value);

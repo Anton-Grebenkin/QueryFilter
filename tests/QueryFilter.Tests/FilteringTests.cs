@@ -1,7 +1,8 @@
 ﻿using QueryFilter.Models;
 using QueryFilter.Tests.Extensions;
 using QueryFilter.Extensions;
-using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Text.Json;
 
 namespace QueryFilter.Tests
 {
@@ -15,13 +16,17 @@ namespace QueryFilter.Tests
 
             var filter = new Filter
             {
-                Items = new List<FilterItem>()
+                MainNode = new FilterNode
                 {
-                    new FilterItem
+                    LogicalOperator = LogicalOperatorType.And,
+                    FilterNodes = new List<FilterNode>
                     {
-                        Operator = OperatorType.Equal,
-                        PropertyName = nameof(DataItem.A),
-                        Value = value
+                        new FilterNode 
+                        {
+                            ExpressionOperator = ExpressionOperatorType.Equal,
+                            PropertyName = nameof(DataItem.A),
+                            Value = value
+                        }
                     }
                 }
             };
@@ -42,13 +47,17 @@ namespace QueryFilter.Tests
 
             var filter = new Filter
             {
-                Items = new List<FilterItem>()
+                MainNode = new FilterNode
                 {
-                    new FilterItem
+                    LogicalOperator = LogicalOperatorType.And,
+                    FilterNodes = new List<FilterNode>
                     {
-                        Operator = OperatorType.NotEqual,
-                        PropertyName = nameof(DataItem.A),
-                        Value = value
+                        new FilterNode
+                        {
+                            ExpressionOperator = ExpressionOperatorType.NotEqual,
+                            PropertyName = nameof(DataItem.A),
+                            Value = value
+                        }
                     }
                 }
             };
@@ -69,13 +78,17 @@ namespace QueryFilter.Tests
 
             var filter = new Filter
             {
-                Items = new List<FilterItem>()
+                MainNode = new FilterNode
                 {
-                    new FilterItem
+                    LogicalOperator = LogicalOperatorType.And,
+                    FilterNodes = new List<FilterNode>
                     {
-                        Operator = OperatorType.Contains,
-                        PropertyName = nameof(DataItem.B),
-                        Value = value
+                        new FilterNode
+                        {
+                            ExpressionOperator = ExpressionOperatorType.Contains,
+                            PropertyName = nameof(DataItem.B),
+                            Value = value
+                        }
                     }
                 }
             };
@@ -94,14 +107,18 @@ namespace QueryFilter.Tests
             //Arrange
             var filter = new Filter
             {
-                Items = new List<FilterItem>()
+                MainNode = new FilterNode
                 {
-                    new FilterItem
-                    {
-                        Operator = OperatorType.Contains,
-                        PropertyName = nameof(DataItem.A),
-                        Value = items.GetRandom().B
-                    }
+                    LogicalOperator = LogicalOperatorType.And,
+                    FilterNodes = new List<FilterNode>
+                        {
+                            new FilterNode
+                            {
+                                ExpressionOperator = ExpressionOperatorType.Contains,
+                                PropertyName = nameof(DataItem.A),
+                                Value = items.GetRandom().B
+                            }
+                        }
                 }
             };
 
@@ -118,13 +135,17 @@ namespace QueryFilter.Tests
             //Arrange
             var filter = new Filter
             {
-                Items = new List<FilterItem>()
+                MainNode = new FilterNode
                 {
-                    new FilterItem
+                    LogicalOperator = LogicalOperatorType.And,
+                    FilterNodes = new List<FilterNode>
                     {
-                        Operator = OperatorType.GreaterThan,
-                        PropertyName = nameof(DataItem.A),
-                        Value = value
+                        new FilterNode
+                        {
+                            ExpressionOperator = ExpressionOperatorType.GreaterThan,
+                            PropertyName = nameof(DataItem.A),
+                            Value = value
+                        }
                     }
                 }
             };
@@ -143,13 +164,17 @@ namespace QueryFilter.Tests
             //Arrange
             var filter = new Filter
             {
-                Items = new List<FilterItem>()
+                MainNode = new FilterNode
                 {
-                    new FilterItem
+                    LogicalOperator = LogicalOperatorType.And,
+                    FilterNodes = new List<FilterNode>
                     {
-                        Operator = OperatorType.GreaterThan,
-                        PropertyName = nameof(DataItem.A),
-                        Value = value
+                        new FilterNode
+                        {
+                            ExpressionOperator = ExpressionOperatorType.GreaterThan,
+                            PropertyName = nameof(DataItem.A),
+                            Value = value
+                        }
                     }
                 }
             };
@@ -168,13 +193,17 @@ namespace QueryFilter.Tests
             //Arrange
             var filter = new Filter
             {
-                Items = new List<FilterItem>()
+                MainNode = new FilterNode
                 {
-                    new FilterItem
+                    LogicalOperator = LogicalOperatorType.And,
+                    FilterNodes = new List<FilterNode>
                     {
-                        Operator = OperatorType.In,
-                        PropertyName = nameof(DataItem.A),
-                        Value = JsonConvert.SerializeObject(values)
+                        new FilterNode
+                        {
+                            ExpressionOperator = ExpressionOperatorType.In,
+                            PropertyName = nameof(DataItem.A),
+                            Value = JsonSerializer.Serialize(values)
+                        }
                     }
                 }
             };
@@ -182,7 +211,6 @@ namespace QueryFilter.Tests
             //Act
             var expected = items.AsQueryable().Where(x => values.Contains(x.A)).ToList();
             var result = items.AsQueryable().ApplyFilter(filter).ToList();
-            items.AsQueryable().ApplyFilter(filter).ToList();
 
             //Assert
             result.Should().BeEquivalentTo(expected);
@@ -196,12 +224,16 @@ namespace QueryFilter.Tests
 
             var filter = new Filter
             {
-                Items = new List<FilterItem>()
+                MainNode = new FilterNode
                 {
-                    new FilterItem
+                    LogicalOperator = LogicalOperatorType.And,
+                    FilterNodes = new List<FilterNode>
                     {
-                        Operator = OperatorType.IsNull,
-                        PropertyName = nameof(DataItem.B)
+                        new FilterNode
+                        {
+                            ExpressionOperator = ExpressionOperatorType.IsNull,
+                            PropertyName = nameof(DataItem.B)
+                        }
                     }
                 }
             };
@@ -220,13 +252,17 @@ namespace QueryFilter.Tests
             //Arrange
             var filter = new Filter
             {
-                Items = new List<FilterItem>()
+                MainNode = new FilterNode
                 {
-                    new FilterItem
+                    LogicalOperator = LogicalOperatorType.And,
+                    FilterNodes = new List<FilterNode>
                     {
-                        Operator = OperatorType.LessThan,
-                        PropertyName = nameof(DataItem.A),
-                        Value = value
+                        new FilterNode
+                        {
+                            ExpressionOperator = ExpressionOperatorType.LessThan,
+                            PropertyName = nameof(DataItem.A),
+                            Value = value
+                        }
                     }
                 }
             };
@@ -245,13 +281,17 @@ namespace QueryFilter.Tests
             //Arrange
             var filter = new Filter
             {
-                Items = new List<FilterItem>()
+                MainNode = new FilterNode
                 {
-                    new FilterItem
+                    LogicalOperator = LogicalOperatorType.And,
+                    FilterNodes = new List<FilterNode>
                     {
-                        Operator = OperatorType.LessThanOrEqual,
-                        PropertyName = nameof(DataItem.A),
-                        Value = value
+                        new FilterNode
+                        {
+                            ExpressionOperator = ExpressionOperatorType.LessThanOrEqual,
+                            PropertyName = nameof(DataItem.A),
+                            Value = value
+                        }
                     }
                 }
             };

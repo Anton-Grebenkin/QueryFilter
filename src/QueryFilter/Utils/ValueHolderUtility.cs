@@ -1,13 +1,5 @@
-﻿using Microsoft.Extensions.Caching.Memory;
-using QueryFilter.Presets;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
+﻿using QueryFilter.Presets;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Collections.Specialized.BitVector32;
 
 namespace QueryFilter.Utils
 {

@@ -13,7 +13,7 @@ namespace BlazorServerApp.Filters
         [CascadingParameter(Name = "Column")]
         public Column<TableItem> Column { get; set; }
 
-        private OperatorType Condition { get; set; }
+        private ExpressionOperatorType Condition { get; set; }
 
         private string FilterValue { get; set; }
 
@@ -25,17 +25,17 @@ namespace BlazorServerApp.Filters
 
                 if (Column.FilterItem != null)
                 {
-                    Condition = Column.FilterItem.Operator;
+                    Condition = Column.FilterItem.ExpressionOperator.Value;
                     FilterValue = Column.FilterItem.Value.ToString();
                 }
             }
         }
 
-        public FilterItem GetFilter()
+        public FilterNode GetFilter()
         {
-            return new FilterItem
+            return new FilterNode
             {
-                Operator = Condition,
+                ExpressionOperator = Condition,
                 PropertyName = Column.Field.GetPropertyMemberInfo().Name,
                 Value = FilterValue
             };

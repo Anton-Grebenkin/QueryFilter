@@ -4,6 +4,19 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <PackageId>FluentQueryFilter.Models</PackageId>
+    <Title>FluentQueryFilter.Models</Title>
+    <Version>1.0.0</Version>
+    <Authors>Anton Grebenkin</Authors>
+    <Company>Anton Grebenkin</Company>
+    <Product>FluentQueryFilter</Product>
+    <Description>A library that contains models for FluentQueryFilter library</Description>
+    <RepositoryUrl>https://github.com/Anton-Grebenkin/QueryFilter</RepositoryUrl>
+    <PackageTags>filter, query, data</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <AnalysisLevel>6.0</AnalysisLevel>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
 
 </Project>

@@ -4,8 +4,8 @@
 
 @if (Column.FilterControl == this)
 {
-    <select class="form-control form-control-sm" value="@Condition" @onchange="@((x) => Condition = (OperatorType)Enum.Parse(typeof(OperatorType), x.Value.ToString()))">
-        @foreach (var option in (OperatorType[])Enum.GetValues(typeof(OperatorType)))
+    <select class="form-control form-control-sm" value="@Condition" @onchange="@((x) => Condition = (ExpressionOperatorType)Enum.Parse(typeof(ExpressionOperatorType), x.Value.ToString()))">
+        @foreach (var option in (ExpressionOperatorType[])Enum.GetValues(typeof(ExpressionOperatorType)))
         {
             <option value="@option">@option.ToString()</option>
         }

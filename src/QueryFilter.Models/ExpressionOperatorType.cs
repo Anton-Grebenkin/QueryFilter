@@ -1,7 +1,7 @@
 ﻿
 namespace QueryFilter.Models
 {
-    public enum OperatorType
+    public enum ExpressionOperatorType
     {
         Equal = 0,
         Contains = 1,

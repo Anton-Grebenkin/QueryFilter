@@ -7,7 +7,7 @@ namespace QueryFilter.Operators
 {
     internal class OperatorContains : Operator
     {
-        internal OperatorContains(FilterItem filterItem) : base(filterItem) { }
+        internal OperatorContains(FilterNode filterItem) : base(filterItem) { }
         protected override Expression GetExpressionBody(MemberExpression memberExpression, Expression constantExpression)
         {
             if (memberExpression.Type != StringPresets.StringType)

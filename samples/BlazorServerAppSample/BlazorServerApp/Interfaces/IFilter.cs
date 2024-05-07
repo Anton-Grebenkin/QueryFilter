@@ -4,6 +4,6 @@ namespace BlazorServerApp.Interfaces
 {
     public interface IFilter<TableItem>
     {
-        FilterItem GetFilter();
+        FilterNode GetFilter();
     }
 }

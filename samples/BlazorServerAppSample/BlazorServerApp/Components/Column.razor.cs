@@ -36,7 +36,7 @@ namespace BlazorServerApp.Components
 
         public IFilter<TableItem> FilterControl { get; set; }
 
-        public FilterItem FilterItem { get; set; }
+        public FilterNode FilterItem { get; set; }
 
 
         public bool SortColumn { get; set; }

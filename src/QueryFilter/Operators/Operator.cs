@@ -8,30 +8,30 @@ namespace QueryFilter.Operators
 {
     internal abstract class Operator
     {
-        internal static Operator GetOperator(FilterItem filterItem)
+        internal static Operator GetOperator(FilterNode filterItem)
         {
-            return filterItem.Operator switch
+            return filterItem.ExpressionOperator switch
             {
-                OperatorType.Equal => new OperatorEqual(filterItem),
-                OperatorType.Contains => new OperatorContains(filterItem),
-                OperatorType.In => new OperatorIn(filterItem),
-                OperatorType.GreaterThan => new OperatorGreaterThan(filterItem),
-                OperatorType.GreaterThanOrEqual => new OperatorGreaterThanOrEqual(filterItem),
-                OperatorType.IsNull => new OperatorIsNull(filterItem),
-                OperatorType.LessThan => new OperatorLessThan(filterItem),
-                OperatorType.LessThanOrEqual => new OperatorLessThanOrEqual(filterItem),
-                OperatorType.NotEqual => new OperatorNotEqual(filterItem),
+                Models.ExpressionOperatorType.Equal => new OperatorEqual(filterItem),
+                Models.ExpressionOperatorType.Contains => new OperatorContains(filterItem),
+                Models.ExpressionOperatorType.In => new OperatorIn(filterItem),
+                Models.ExpressionOperatorType.GreaterThan => new OperatorGreaterThan(filterItem),
+                Models.ExpressionOperatorType.GreaterThanOrEqual => new OperatorGreaterThanOrEqual(filterItem),
+                Models.ExpressionOperatorType.IsNull => new OperatorIsNull(filterItem),
+                Models.ExpressionOperatorType.LessThan => new OperatorLessThan(filterItem),
+                Models.ExpressionOperatorType.LessThanOrEqual => new OperatorLessThanOrEqual(filterItem),
+                Models.ExpressionOperatorType.NotEqual => new OperatorNotEqual(filterItem),
                 _ => throw new NotImplementedException()
             };
         }
 
-        protected readonly FilterItem _filterItem;
+        protected readonly FilterNode _filterItem;
         private readonly bool _withValueHolder = false;
-        private protected Operator(FilterItem filterItem)
+        private protected Operator(FilterNode filterItem)
         {
             _filterItem = filterItem;
         }
-        private protected Operator(FilterItem filterItem, bool withValueHolder)
+        private protected Operator(FilterNode filterItem, bool withValueHolder)
         {
             _filterItem = filterItem;
             _withValueHolder = withValueHolder;
