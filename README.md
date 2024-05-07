@@ -2,7 +2,7 @@
 A library that provides to apply serialized filters to IQueryable collections
 
 ## Features
-- Filtering with logical AND operation
+- Filtering
 - Paging
 - Sorting
 
