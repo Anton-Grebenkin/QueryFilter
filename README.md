@@ -31,7 +31,7 @@ var filter = new Filter
 
 ```
 
-Creating multiple filters with a logical operator "or". It is possible to create many filters with nesting and logical operators and and or
+Creating multiple filters with a logical operator "or". It is possible to create many filters with nesting and logical operators "and" and "or"
 ```csharp
 var filter = new Filter
 {
