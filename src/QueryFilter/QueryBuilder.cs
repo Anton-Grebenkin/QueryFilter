@@ -29,10 +29,8 @@ namespace QueryFilter
             if (filter == null)
                 return query;
 
-            if (filter.MainNode?.FilterNodes != null && 
-                filter.MainNode.FilterNodes.Any(i => i != null) && 
-                filter.MainNode.LogicalOperator != null)
-                query = AddFilters(query, filter.MainNode.FilterNodes.Where(i => i != null), filter.MainNode.LogicalOperator.Value);
+            if (filter.MainNode != null)
+                query = AddFilters(query, filter.MainNode);
 
             if (filter.Take.HasValue)
                 query = AddPaging(query, filter.Take.Value, filter.Skip);
@@ -43,35 +41,36 @@ namespace QueryFilter
             return query;
         }
 
-        private IQueryable<T> AddFilters(IQueryable<T> query, IEnumerable<FilterNode> filterItems, LogicalOperatorType logicalOperator)
+        private IQueryable<T> AddFilters(IQueryable<T> query, FilterNode mainNode)
         {
-            return query.Where(Expression.Lambda<Func<T, bool>>(GetFiltersExpressionBody(filterItems, logicalOperator), _parameter));
+            return query.Where(Expression.Lambda<Func<T, bool>>(GetFiltersExpressionBody(mainNode), _parameter));
         }
 
-        private Expression GetFiltersExpressionBody(IEnumerable<FilterNode> filterItems, LogicalOperatorType logicalOperator)
+        private Expression GetFiltersExpressionBody(FilterNode filterNode)
         {
             Expression? body = null;
-            Expression? itemExpression = null;
-            foreach (var item in filterItems)
+
+            if (FilterHasSubfilters(filterNode))
             {
-                if (item.FilterNodes != null && item.FilterNodes.Any() && item.LogicalOperator.HasValue)
+                Expression? itemExpression = null;
+                foreach (var subfilter in filterNode.FilterNodes!)
                 {
-                    itemExpression = GetFiltersExpressionBody(item.FilterNodes, item.LogicalOperator.Value);
+                    itemExpression = GetFiltersExpressionBody(subfilter);
+                    body = body != null ? GetExpressionByLogicalOperatorType(filterNode.LogicalOperator!.Value, body, GetFiltersExpressionBody(subfilter)) : itemExpression;
                 }
-                else
-                {
-                    var property = _properties.FirstOrDefault(p => string.Equals(p.Name, item.PropertyName, StringComparison.OrdinalIgnoreCase));
-                    if (property == null)
-                        throw new InvalidOperationException($"Property with name {item.PropertyName} doesn't exist");
+            }
+            else
+            {
+                var property = _properties.FirstOrDefault(p => string.Equals(p.Name, filterNode.PropertyName, StringComparison.OrdinalIgnoreCase));
+                if (property == null)
+                    throw new InvalidOperationException($"Property with name {filterNode.PropertyName} doesn't exist");
 
-                    var @operator = Operator.GetOperator(item);
+                var @operator = Operator.GetOperator(filterNode);
 
-                    itemExpression = @operator.GetExpression(_parameter);
-                }
-                body = body != null ? GetExpressionByLogicalOperatorType(logicalOperator, body, itemExpression) : itemExpression;
+                body = @operator.GetExpression(_parameter);
             }
 
-            return body;
+            return body!;
         }
 
         private IQueryable<T> AddPaging(IQueryable<T> query, int take, int? skip)
@@ -136,5 +135,10 @@ namespace QueryFilter
                 LogicalOperatorType.Or => Expression.OrElse(left, right),
                 _ => throw new NotImplementedException()
             };
+
+        private bool FilterHasSubfilters(FilterNode filterNode) =>
+            filterNode?.FilterNodes != null &&
+            filterNode.FilterNodes.Any() &&
+            filterNode.LogicalOperator != null;
     }
 }
