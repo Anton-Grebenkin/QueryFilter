@@ -43,7 +43,11 @@ namespace QueryFilter
 
         private IQueryable<T> AddFilters(IQueryable<T> query, FilterNode mainNode)
         {
-            return query.Where(Expression.Lambda<Func<T, bool>>(GetFiltersExpressionBody(mainNode), _parameter));
+            var body = GetFiltersExpressionBody(mainNode);
+            if (body == null) 
+                return query;
+
+            return query.Where(Expression.Lambda<Func<T, bool>>(body, _parameter));
         }
 
         private Expression GetFiltersExpressionBody(FilterNode filterNode)
@@ -59,8 +63,9 @@ namespace QueryFilter
                     body = body != null ? GetExpressionByLogicalOperatorType(filterNode.LogicalOperator!.Value, body, GetFiltersExpressionBody(subfilter)) : itemExpression;
                 }
             }
-            else
+            else if (filterNode.ExpressionOperator != null && !string.IsNullOrEmpty(filterNode.PropertyName))
             {
+                
                 var property = _properties.FirstOrDefault(p => string.Equals(p.Name, filterNode.PropertyName, StringComparison.OrdinalIgnoreCase));
                 if (property == null)
                     throw new InvalidOperationException($"Property with name {filterNode.PropertyName} doesn't exist");
