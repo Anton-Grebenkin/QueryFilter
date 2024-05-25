@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <PackageId>FluentQueryFilter</PackageId>
     <Title>FluentQueryFilter</Title>
-    <Version>{{Version}}</Version>
+    <Version>$(Version)</Version>
     <Authors>Anton Grebenkin</Authors>
     <Company>Anton Grebenkin</Company>
     <Product>FluentQueryFilter</Product>

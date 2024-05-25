@@ -21,7 +21,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Set Version
         run: |
-          sed -i -e 's/{{Version}}/${{ github.ref_name }}/' ${{ env.PROJECT_PATH }}
+          sed -i -e 's/$(Version)/${{ github.ref_name }}/' ${{ env.PROJECT_PATH }}
       - name: Pack
         run: |
           dotnet pack ${{ env.PROJECT_PATH }} -c Release -o ${{ env.PACKAGE_OUTPUT_DIRECTORY }}
