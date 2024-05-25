@@ -19,7 +19,7 @@ namespace QueryFilter.Utils
                 return Enum.Parse(targetType, initialValue.ToString());
 
             if (typeof(IConvertible).IsAssignableFrom(targetType))
-                return Convert.ChangeType(initialValue, targetType);
+                return Convert.ChangeType(initialValue.ToString(), targetType);
 
             throw new InvalidCastException($"Cannot convert value to type {targetType.Name}.");
         } 

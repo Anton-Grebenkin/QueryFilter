@@ -22,7 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\QueryFilter.Models\QueryFilter.Models.csproj" />
     <ProjectReference Include="..\..\src\QueryFilter\QueryFilter.csproj" />
   </ItemGroup>
 

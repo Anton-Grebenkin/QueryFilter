@@ -1,0 +1,32 @@
+on:
+  push:
+    tags:
+      - '*.*.**'
+  workflow_run:
+    workflows: ["Build & Test Package"]
+      types:
+        - completed
+
+env:
+  PROJECT_PATH: 'src/QueryFilter/QueryFilter.csproj'
+  PACKAGE_OUTPUT_DIRECTORY: ${{ github.workspace }}\output
+  NUGET_SOURCE_URL: 'https://api.nuget.org/v3/index.json'
+     
+jobs:
+  publish_nuget_package:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    name: Publish
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set Version
+        run: |
+          sed -i -e 's/{{Version}}/${{ github.ref_name }}/' ${{ env.PROJECT_PATH }}
+      - name: Pack
+        run: |
+          dotnet pack ${{ env.PROJECT_PATH }} -c Release -o ${{ env.PACKAGE_OUTPUT_DIRECTORY }}
+      - name: Publish
+        env:
+          API_KEY: ${{ secrets.NUGET_API_KEY }}
+        run: |
+          dotnet nuget push ${{ env.PACKAGE_OUTPUT_DIRECTORY }}\*.nupkg --api-key $API_KEY --source ${{ env.NUGET_SOURCE_URL }}
