@@ -32,11 +32,11 @@ namespace QueryFilter
             if (filter.MainNode != null)
                 query = AddFilters(query, filter.MainNode);
 
-            if (filter.Take.HasValue)
-                query = AddPaging(query, filter.Take.Value, filter.Skip);
-
             if (filter.Sorts != null && filter.Sorts.Any())
                 query = AddSort(query, filter.Sorts.ToArray());
+
+            if (filter.Take.HasValue)
+                query = AddPaging(query, filter.Take.Value, filter.Skip);
 
             return query;
         }
