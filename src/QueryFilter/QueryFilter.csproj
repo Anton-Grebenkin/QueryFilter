@@ -16,6 +16,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>icon.png</PackageIcon>
     <PackageTags>filter, query, data</PackageTags>
+    <PackageProjectUrl>https://github.com/Anton-Grebenkin/QueryFilter</PackageProjectUrl>
   </PropertyGroup>
 
 <ItemGroup>
